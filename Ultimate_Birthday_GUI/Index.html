@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Arpita ❤</title>
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        font-family: 'Helvetica', sans-serif;
+        background: #0b0211;
+        height: 100%;
+        width: 100%;
+    }
+
+    #slideshow {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        z-index: 0;
+        background: #0b0211;
+    }
+    .slide {
+        position: absolute;
+        width: 100%; height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+    }
+    .slide.active { opacity: 1; }
+
+    #message-panel {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        max-width: 500px;
+        background: rgba(27,11,26,0.95);
+        border-radius: 25px;
+        padding: 20px;
+        text-align: center;
+        z-index: 2;
+        box-shadow: 0 0 20px rgba(255,111,181,0.6);
+    }
+    #message-panel h2 {
+        color: #ff6fb5;
+        margin: 0 0 10px 0;
+        font-size: 1.5rem;
+    }
+    #message-panel p {
+        font-size: 1rem;
+        line-height: 1.4;
+        color: #fff0fb;
+    }
+
+    .floating {
+        position: absolute;
+        pointer-events: none;
+        animation: floatUp linear forwards;
+    }
+    @keyframes floatUp {
+        0% { transform: translateY(0); opacity:1; }
+        100% { transform: translateY(-700px); opacity:0; }
+    }
+
+    @media screen and (max-width: 500px) {
+        #message-panel h2 { font-size: 1.2rem; }
+        #message-panel p { font-size: 0.9rem; }
+    }
+</style>
+</head>
+<body>
+
+<div id="slideshow"></div>
+
+<div id="message-panel">
+    <h2>❤ Arpita's Birthday ❤</h2>
+    <p>
+        Happy Birthday, my beautiful Arpita! 💖<br>
+        You light up my days and fill my heart with joy.<br>
+        Every moment with you feels like a small miracle.<br>
+        I love you — today and always. ❤
+    </p>
+</div>
+
+<audio id="bg-music" src="music.mp3" autoplay loop></audio>
+
+<script>
+const photos = [
+    "photos/photo1.jpg",
+    "photos/photo2.jpg",
+    "photos/photo3.jpg"
+    // Add more photo paths
+];
+
+const hearts = ["❤","💗","💖","💞","💕","💓"];
+const sparkles = ["✨","🌟","💫"];
+const maxFloating = 12;
+
+let slideshowDiv = document.getElementById('slideshow');
+let currentIndex = 0;
+
+// Preload images
+photos.forEach(src => {
+    let img = document.createElement('img');
+    img.src = src;
+    img.className = 'slide';
+    slideshowDiv.appendChild(img);
+});
+
+let slides = document.querySelectorAll('.slide');
+slides[0].classList.add('active');
+
+// Slideshow loop
+setInterval(() => {
+    slides[currentIndex].classList.remove('active');
+    currentIndex = (currentIndex + 1) % slides.length;
+    slides[currentIndex].classList.add('active');
+}, 4000);
+
+// Floating hearts and sparkles
+function spawnFloating() {
+    if(document.querySelectorAll('.floating').length >= maxFloating) return;
+
+    let symbol = Math.random() < 0.7 ? hearts[Math.floor(Math.random()*hearts.length)]
+                                     : sparkles[Math.floor(Math.random()*sparkles.length)];
+    let span = document.createElement('span');
+    span.innerText = symbol;
+    span.className = 'floating';
+    span.style.left = Math.random() * window.innerWidth + 'px';
+    span.style.fontSize = 18 + Math.random()*22 + 'px';
+    span.style.color = hearts.includes(symbol) ? '#ff6fb5' : '#ffafd9';
+    document.body.appendChild(span);
+
+    setTimeout(() => span.remove(), 4000);
+}
+
+setInterval(spawnFloating, 250);
+</script>
+
+</body>
+</html>
